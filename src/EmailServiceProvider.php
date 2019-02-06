@@ -4,6 +4,7 @@ namespace Rareloop\Lumberjack\Email;
 
 use Rareloop\Lumberjack\Config;
 use Rareloop\Lumberjack\Email\Email;
+use Rareloop\Lumberjack\Facades\Log;
 use Rareloop\Lumberjack\Providers\ServiceProvider;
 
 class EmailServiceProvider extends ServiceProvider
@@ -13,6 +14,8 @@ class EmailServiceProvider extends ServiceProvider
         if ($this->useSMTP($config)) {
             $this->setupSMTP($config);
         }
+
+        $this->addWpMailErrorHandler();
     }
 
     private function useSMTP(Config $config)
@@ -42,6 +45,15 @@ class EmailServiceProvider extends ServiceProvider
             if (!empty($port)) {
                 $phpmailer->Port = $port;
             }
+        });
+    }
+
+    private function addWpMailErrorHandler()
+    {
+        // add the action 
+        add_action('wp_mail_failed', function ($error) {
+            Log::error('Error sending email via `wp_mail()`');
+            Log::error(print_r($error, true));
         });
     }
 

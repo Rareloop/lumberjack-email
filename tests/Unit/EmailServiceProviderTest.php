@@ -65,4 +65,18 @@ class EmailServiceProviderTest extends TestCase
         $provider = new EmailServiceProvider($app);
         $provider->boot($config);
     }
+
+    /** @test */
+    public function listener_is_added_for_wp_mail_errors()
+    {
+        $app = new Application();
+        $config = new Config;
+
+        Functions\expect('add_action')
+            ->once()
+            ->with('wp_mail_failed', Mockery::type('callable'));
+
+        $provider = new EmailServiceProvider($app);
+        $provider->boot($config);
+    }
 }
