@@ -21,8 +21,14 @@ class EmailServiceProvider extends ServiceProvider
     private function useSMTP(Config $config)
     {
         $host = $config->get('email.smtp.hostname');
+        $authenticate = $config->get('email.smtp.auth', true) === true;
+
         $username = $config->get('email.smtp.username');
         $password = $config->get('email.smtp.password');
+
+        if (!empty($host) && !$authenticate) {
+            return true;
+        }
 
         return (!empty($host) && !empty($username) && !empty($password));
     }
@@ -32,14 +38,15 @@ class EmailServiceProvider extends ServiceProvider
         add_action('phpmailer_init', function ($phpmailer) use ($config) {
             $phpmailer->isSMTP();
             $phpmailer->Host = $config->get('email.smtp.hostname');
-            $phpmailer->Username = $config->get('email.smtp.username');
-            $phpmailer->Password = $config->get('email.smtp.password');
 
-            $auth = $config->get('email.smtp.auth');
+            $auth = $config->get('email.smtp.auth', true);
             $port = $config->get('email.smtp.port');
 
-            if (!empty($auth)) {
-                $phpmailer->SMTPAuth = $auth;
+            $phpmailer->SMTPAuth = $auth === true;
+
+            if ($phpmailer->SMTPAuth) {
+                $phpmailer->Username = $config->get('email.smtp.username');
+                $phpmailer->Password = $config->get('email.smtp.password');
             }
 
             if (!empty($port)) {
