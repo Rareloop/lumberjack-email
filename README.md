@@ -64,6 +64,21 @@ Email::sendPlain(
 );
 ```
 
+### Send an email with attachments
+Each send method accepts an optional `attachments` parameter which will be passed on to `wp_mail` as it is received.
+
+```php
+use Rareloop\Lumberjack\Email\Facades\Email;
+
+Email::sendPlain(
+    'recipient@mail.com',
+    'Email Subject line',
+    'Plain text body',
+    false,  // Set reply-to to false if you don't need it, necessary because attachments is the final argument
+    ['/path/to/file.pdf']
+);
+```
+
 ## Config
 You can also specify an SMTP server to use for emails by creating a `config/email.php` file:
 
