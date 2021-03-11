@@ -42,7 +42,7 @@ class EmailServiceProvider extends ServiceProvider
             $auth = $config->get('email.smtp.auth', true);
             $port = $config->get('email.smtp.port');
 
-            $phpmailer->SMTPAuth = $auth === true;
+            $phpmailer->SMTPAuth = $auth;
 
             if ($phpmailer->SMTPAuth) {
                 $phpmailer->Username = $config->get('email.smtp.username');
@@ -57,7 +57,7 @@ class EmailServiceProvider extends ServiceProvider
 
     private function addWpMailErrorHandler()
     {
-        // add the action 
+        // add the action
         add_action('wp_mail_failed', function ($error) {
             Log::error('Error sending email via `wp_mail()`');
             Log::error(print_r($error, true));
