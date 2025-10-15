@@ -2,29 +2,27 @@
 
 namespace Rareloop\Lumberjack\Email\Test;
 
-use Blast\Facades\FacadeFactory;
+use Mockery;
 use Brain\Monkey;
 use Brain\Monkey\Functions;
-use Mockery;
 use PHPUnit\Framework\TestCase;
-use Rareloop\Lumberjack\Application;
 use Rareloop\Lumberjack\Config;
+use Rareloop\Lumberjack\Application;
 use Rareloop\Lumberjack\Email\Email;
+use Rareloop\Lumberjack\FacadeFactory;
 use Rareloop\Lumberjack\Email\EmailServiceProvider;
-use Rareloop\Lumberjack\Email\Facades\Email as EmailFacade;
-use Rareloop\Lumberjack\Http\Lumberjack;
 
 class EmailServiceProviderTest extends TestCase
 {
     use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         Monkey\setUp();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         Monkey\tearDown();

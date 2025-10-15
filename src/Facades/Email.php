@@ -2,7 +2,7 @@
 
 namespace Rareloop\Lumberjack\Email\Facades;
 
-use Blast\Facades\AbstractFacade;
+use Rareloop\Lumberjack\Facades\AbstractFacade;
 
 class Email extends AbstractFacade
 {
