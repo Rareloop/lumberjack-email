@@ -57,7 +57,7 @@ class EmailServiceProvider extends ServiceProvider
 
     private function addWpMailErrorHandler()
     {
-        // add the action 
+        // add the action
         add_action('wp_mail_failed', function ($error) {
             Log::error('Error sending email via `wp_mail()`');
             Log::error(print_r($error, true));
